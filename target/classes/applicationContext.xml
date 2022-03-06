@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <beans>
+        <!--Create bean with No-argument constructor-->
+        <!--<bean id="userDao" class="com.cecilia.dao.impl.UserDaoImpl" init-method="init" destroy-method="destroy"></bean>-->
+
+        <!--Create bean with factory static method-->
+        <!--<bean id="userDao2" class="com.cecilia.factory.StaticFactory" factory-method="getUserDao"></bean>-->
+
+        <!--Create bean with factory instance method: a factory object needs to be created first so that factory method can be called-->
+<!--        <bean id="factory" class="com.cecilia.factory.DynamicFactory"/>-->
+<!--        <bean id="userDao" factory-bean="factory" factory-method="getUserDao"/>-->
+
+        <!-- Demo: Dependency Injection-->
+        <bean id="userService" class="com.cecilia.service.impl.UserServiceImpl">
+            <property name="userDao" ref="userDao1"></property>
+        </bean>
+
+        <bean id="user1" class="com.cecilia.domain.User">
+            <property name="name" value="tom"/>
+            <property name="age" value="20"/>
+        </bean>
+
+        <bean id="userDao1" class="com.cecilia.dao.impl.UserDaoImpl">
+            <property name="name" value="Cecilia"/>
+            <property name="age" value ="18"/>
+            <property name="strList">
+                <list>
+                    <value>aaa</value>
+                    <value>bbb</value>
+                    <value>ccc</value>
+                </list>
+            </property>
+            <property name="userMap">
+                <map>
+                    <entry key="user1" value-ref="user1"/>
+                        <!-- Must use key/value-ref properties, not use sub-tag-->
+                </map>
+            </property>
+            <property name="properties">
+                <props>
+                    <prop key="prop1">p1</prop>
+                    <prop key="prop2">p2</prop>
+                    <prop key="prop3">p3</prop>
+                </props>
+            </property>
+        </bean>
+    </beans>
+</beans>
